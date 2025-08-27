@@ -21,8 +21,7 @@
     <%= stylesheet_link_tag :all, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
-
-  <body>
+  <body class="bg-slate-100 min-h-screen flex items-center justify-center p-4">
     <div id="flash" class="hidden">
       <% if notice.present? %>
           <div data-controller="flash" data-flash-type-value="success" id="notice"><%= notice %></div>
@@ -31,8 +30,20 @@
           <div data-controller="flash" data-flash-type-value="error" id="alert"><%= alert %></div>
       <% end %>
     </div>
-    <main class="container mx-auto mt-28 px-5">
-      <%= yield %>
-    </main>
+
+    <div class="w-full max-w-md">
+      <div class="bg-white rounded-lg shadow-md p-8">
+        <!-- Logo/Header -->
+        <div class="text-center mb-8">
+          <div class="inline-flex items-center justify-center w-12 h-12 bg-orange-500 rounded-lg mb-4">
+            <span class="text-white font-bold text-xl">CN</span>
+          </div>
+          <h1 class="text-2xl font-semibold text-slate-700 mb-2">Coding Ninjas</h1>
+          <p class="text-slate-500 text-sm">Doubt System</p>
+        </div>
+
+        <%= yield %>
+      </div>
+    </div>
   </body>
 </html>
