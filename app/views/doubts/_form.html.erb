@@ -16,14 +16,16 @@
   <div>
     <%= form.label :title, class: "block text-sm font-medium text-text-secondary" %>
     <%= form.text_field :title,
-          class: "mt-1 block w-full border border-border bg-white px-3 py-2 text-text shadow-sm focus:border-accent focus:ring-accent sm:text-sm" %>
+          class: "mt-1 block w-full border border-border bg-white px-3 py-2 text-text shadow-sm focus:border-accent focus:ring-accent sm:text-sm",
+          required: true %>
   </div>
 
   <!-- Description (rich text) -->
   <div>
     <%= form.label :description, class: "block text-sm font-medium text-text-secondary" %>
     <%= form.rich_text_area :description,
-          class: "mt-1 block w-full border border-border bg-white p-2 text-text shadow-sm focus:border-accent focus:ring-accent sm:text-sm" %>
+          class: "mt-1 block w-full border border-border bg-white p-2 text-text shadow-sm focus:border-accent focus:ring-accent sm:text-sm",
+          required: true %>
   </div>
 
   <!-- Submit -->

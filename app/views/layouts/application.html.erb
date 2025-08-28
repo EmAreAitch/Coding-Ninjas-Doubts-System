@@ -57,14 +57,8 @@
       </div>
     </header>
     
-    <div id="flash" class="hidden">
-      <% if notice.present? %>
-          <div data-controller="flash" data-flash-type-value="success" id="notice"><%= notice %></div>
-      <% end %>
-      <% if alert.present? %>
-          <div data-controller="flash" data-flash-type-value="error" id="alert"><%= alert %></div>
-      <% end %>
-    </div>
+    <%= render "flash" %>
+    
     <main class="container mx-auto p-6">
       <%= yield %>
     </main>

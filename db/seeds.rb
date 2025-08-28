@@ -1,6 +1,7 @@
 # Clear existing data
 Doubt.destroy_all
 Student.destroy_all
+Comment.destroy_all
 
 puts "Creating students..."
 
@@ -31,12 +32,30 @@ sample_descriptions = [
   "I set `config.time_zone` but times still seem wrong in views. How should Rails handle timezones properly?"
 ]
 
+sample_comment_bodies = [
+  "Thanks for asking! This helped me understand better.",
+  "I think you should check the official Rails guide on this.",
+  "Can you clarify what you mean by 'validations'?",
+  "This is exactly what I was struggling with!",
+  "I would also like to know the answer to this."
+]
+
 20.times do
   student = students.sample
   title = sample_titles.sample
   description = sample_descriptions.sample
 
-  doubt = Doubt.create!(title:, description:, user: student)  
+  doubt = Doubt.create!(title:, description:, user: student)
+
+  # Add 1–3 random comments per doubt
+  rand(1..3).times do
+    commenter = students.sample
+    Comment.create!(
+      body: sample_comment_bodies.sample,
+      commentable: doubt,
+      user: commenter
+    )
+  end
 end
 
-puts "Created 20 sample doubts."
+puts "Created 20 sample doubts with comments."

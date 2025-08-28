@@ -1,6 +1,6 @@
 class DoubtsController < ApplicationController
   def index    
-    @doubts = Doubt.with_rich_text_description_and_embeds.includes(:user).order(created_at: :desc)
+    @doubts = Doubt.with_rich_text_description_and_embeds.includes(:user, comments: :user).order(created_at: :desc)
   end
 
   def new

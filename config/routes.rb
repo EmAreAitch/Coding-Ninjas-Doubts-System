@@ -12,10 +12,12 @@ Rails.application.routes.draw do
   # Defines the root path route ("/")
   root "doubts#index"
 
-  resources :doubts, except: [:update, :destroy]
+  resources :doubts, except: [:update, :destroy] do
+    resources :comments, except: [:update, :destroy, :show]
+  end
   
-  devise_for :users, controllers: {
-    sessions: "users/sessions",
+  
+  devise_for :users, controllers: {    
     registrations: "users/registrations",
   }
 end

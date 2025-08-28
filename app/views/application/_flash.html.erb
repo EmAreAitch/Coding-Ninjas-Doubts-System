@@ -1,0 +1,12 @@
+<div id="flash" class="hidden">  
+  <% if notice.present? %>            
+      <% [*notice].each do |msg| %>
+        <div data-controller="flash" data-flash-type-value="success" id="notice"><%= msg %></div>
+      <% end %>
+  <% end %>
+  <% if alert.present? %>      
+      <% [*alert].each do |msg| %>
+        <div data-controller="flash" data-flash-type-value="error" id="alert"><%= msg %></div>
+      <% end %>
+  <% end %>
+</div>

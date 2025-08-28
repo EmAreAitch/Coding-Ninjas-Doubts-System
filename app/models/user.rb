@@ -12,7 +12,7 @@ class User < ApplicationRecord
   
   validates :type, presence: true, inclusion: { in: %w[Student Admin TA] }
   has_many :doubts, dependent: :destroy
-
+  has_many :comments, dependent: :destroy
   private
 
   def set_default_type

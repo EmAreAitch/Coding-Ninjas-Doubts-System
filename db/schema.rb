@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_28_020607) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_28_085216) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -49,6 +49,27 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_28_020607) do
     t.index ["blob_id", "variation_digest"], name: "index_active_storage_variant_records_uniqueness", unique: true
   end
 
+  create_table "comments", force: :cascade do |t|
+    t.text "body", null: false
+    t.string "commentable_type", null: false
+    t.integer "commentable_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["commentable_type", "commentable_id"], name: "index_comments_on_commentable"
+    t.index ["user_id"], name: "index_comments_on_user_id"
+  end
+
+  create_table "doubt_assignments", force: :cascade do |t|
+    t.integer "doubt_id", null: false
+    t.integer "ta_id", null: false
+    t.integer "status", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["doubt_id"], name: "index_doubt_assignments_on_doubt_id"
+    t.index ["ta_id"], name: "index_doubt_assignments_on_ta_id"
+  end
+
   create_table "doubts", force: :cascade do |t|
     t.string "title"
     t.datetime "created_at", null: false
@@ -73,5 +94,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_28_020607) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "comments", "users"
+  add_foreign_key "doubt_assignments", "doubts"
+  add_foreign_key "doubt_assignments", "users", column: "ta_id"
   add_foreign_key "doubts", "users"
 end
