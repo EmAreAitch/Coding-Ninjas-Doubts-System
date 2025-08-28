@@ -36,7 +36,8 @@
         <nav class="flex items-center space-x-2 text-sm">
           <% @nav_links = [
             ["Home", root_path],
-            ["Raise Doubt", new_doubt_path]            
+            ["Raise Doubt", new_doubt_path],
+            ["Solve Doubt", doubt_assignments_path]
           ] %>
 
           <% @nav_links.each_with_index do |(text, path), index| %>

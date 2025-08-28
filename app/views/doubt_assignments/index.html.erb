@@ -1,0 +1,11 @@
+<div class="max-w-4xl mx-auto">
+  <!-- Page heading -->
+  <h1 class="text-3xl font-semibold text-text mb-6">Solve Doubts</h1>  
+
+  <!-- Render each doubt assignment -->
+  <% if @doubts.load.any? %>
+    <%= render collection: @doubts, partial: "doubt_assignments/doubt" %>
+  <% else %>
+    <p class="text-text-secondary text-center">No doubts available.</p>
+  <% end %>
+</div>

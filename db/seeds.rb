@@ -1,7 +1,8 @@
 # Clear existing data
-Doubt.destroy_all
-Student.destroy_all
+
 Comment.destroy_all
+Doubt.destroy_all
+User.destroy_all
 
 puts "Creating students..."
 
@@ -13,6 +14,16 @@ students = [
 ].map { |attrs| Student.create!(attrs) }
 
 puts "Created #{students.count} students."
+
+puts "Creating teaching assistants..."
+
+tas = [
+  { name: "TA John", email: "ta_john@example.com", password: "password" },
+  { name: "TA Sarah", email: "ta_sarah@example.com", password: "password" },
+  { name: "TA Mike", email: "ta_mike@example.com", password: "password" }
+].map { |attrs| TeachingAssistant.create!(attrs) }
+
+puts "Created #{tas.count} teaching assistants."
 
 puts "Creating doubts..."
 

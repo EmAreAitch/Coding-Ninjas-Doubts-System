@@ -1,0 +1,29 @@
+<div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 items-start">
+  <!-- Doubt Card -->
+  <div>
+    <%= render @doubt, all_comments?: true %>
+  </div>
+
+  <!-- Answer Form -->
+  <div class="space-y-4">
+    <div class="bg-surface p-6 shadow-sm border-2 border-border space-y-4">
+      <h3 class="text-xl font-semibold text-text">Your Answer</h3>
+
+      <%= form_with(model: @doubt_assignment, method: :patch) do |f| %>
+        <div class="mb-4">
+          <%= f.rich_text_area :answer, class: "bg-white" %>
+        </div>
+        <div class="text-right">
+          <%= f.submit "Answer", class: "px-4 py-2 bg-accent text-white rounded hover:bg-green-700" %>
+        </div>
+      <% end %>
+    </div>
+    <div class="text-right">
+      <%= button_to "Escalate",
+            doubt_assignment_path(@doubt_assignment),
+            method: :patch,
+            params: { doubt_assignment: { status: :escalated } },
+            class: "px-4 py-2 bg-white text-accent rounded hover:bg-accent hover:text-white border border-accent" %>
+     </div> 
+  </div>
+</div>

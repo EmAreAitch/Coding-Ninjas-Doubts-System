@@ -1,7 +1,7 @@
 class Doubt < ApplicationRecord
   belongs_to :user
   has_many :comments, -> { order(created_at: :asc) }, as: :commentable, dependent: :destroy
-  
+  has_many :doubt_assignments, dependent: :destroy
            
   has_rich_text :description
 
