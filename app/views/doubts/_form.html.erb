@@ -1,0 +1,33 @@
+<%= form_with(model: doubt, class: "space-y-6") do |form| %>
+  <% if doubt.errors.any? %>
+    <div class="bg-red-50 border border-red-200 p-4 rounded">
+      <h2 class="text-red-700 font-semibold mb-2">
+        <%= pluralize(doubt.errors.count, "error") %> prohibited this doubt from being saved:
+      </h2>
+      <ul class="list-disc list-inside text-red-600 text-sm">
+        <% doubt.errors.full_messages.each do |message| %>
+          <li><%= message %></li>
+        <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <!-- Title -->
+  <div>
+    <%= form.label :title, class: "block text-sm font-medium text-text-secondary" %>
+    <%= form.text_field :title,
+          class: "mt-1 block w-full border border-border bg-white px-3 py-2 text-text shadow-sm focus:border-accent focus:ring-accent sm:text-sm" %>
+  </div>
+
+  <!-- Description (rich text) -->
+  <div>
+    <%= form.label :description, class: "block text-sm font-medium text-text-secondary" %>
+    <%= form.rich_text_area :description,
+          class: "mt-1 block w-full border border-border bg-white p-2 text-text shadow-sm focus:border-accent focus:ring-accent sm:text-sm" %>
+  </div>
+
+  <!-- Submit -->
+  <div class="text-right">
+    <%= form.submit class: "bg-accent text-white px-4 py-2 font-medium shadow hover:bg-accent/90", value: "Ask Doubt" %>
+  </div>
+<% end %>

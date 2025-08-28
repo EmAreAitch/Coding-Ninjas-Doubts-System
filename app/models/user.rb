@@ -11,6 +11,7 @@ class User < ApplicationRecord
   validates :name, length: { minimum: 2, maximum: 50 }, allow_blank: true
   
   validates :type, presence: true, inclusion: { in: %w[Student Admin TA] }
+  has_many :doubts, dependent: :destroy
 
   private
 

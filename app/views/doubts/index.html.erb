@@ -1,1 +1,9 @@
-<h1>HELLO</h1>
+<div class="max-w-4xl mx-auto">
+  <!-- Page heading -->
+  <h1 class="text-3xl font-semibold text-text mb-6">Home</h1>  
+  <p class="text-right text-text"><%= @doubts.length %> Doubts</p>
+  <%= render @doubts %>
+  <% if @doubts.empty? %>
+    <p class="text-text-secondary text-center">No doubts raised yet.</p>
+  <% end %>
+</div>

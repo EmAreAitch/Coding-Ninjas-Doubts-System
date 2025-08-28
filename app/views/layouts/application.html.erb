@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= content_for(:title) || "Doubt System" %></title>
+    <title><%= content_for(:title) || "Coding Ninjas Doubt System" %></title>
     <meta name="viewport" content="width=device-width,initial-scale=1">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="mobile-web-app-capable" content="yes">
@@ -22,7 +22,41 @@
     <%= javascript_importmap_tags %>
   </head>
 
-  <body>
+  <body class="bg-background text-text font-sans">
+    <!-- Top Bar -->
+    <header class="flex items-center justify-between bg-surface border-b border-border px-6 py-3">
+      <!-- Left side: CN + nav links -->
+      <div class="flex items-center space-x-4">
+        <!-- CN orange box -->
+        <div class="bg-orange-500 text-white font-bold px-3 py-1">
+          CN
+        </div>
+
+        <!-- Nav links -->
+        <nav class="flex items-center space-x-2 text-sm">
+          <% @nav_links = [
+            ["Home", root_path],
+            ["Raise Doubt", new_doubt_path]            
+          ] %>
+
+          <% @nav_links.each_with_index do |(text, path), index| %>
+            <%= link_to text, path, class: "hover:text-accent" %>
+            <% unless index == @nav_links.size - 1 %>
+              <span>|</span>
+            <% end %>
+          <% end %>
+        </nav>
+      </div>
+
+      <!-- Right side: Logout button -->
+      <div>
+        <%= button_to "Logout",
+            destroy_user_session_path,
+            method: :delete,
+            class: "bg-accent text-white px-3 py-1 font-medium shadow hover:bg-accent/90" %>
+      </div>
+    </header>
+    
     <div id="flash" class="hidden">
       <% if notice.present? %>
           <div data-controller="flash" data-flash-type-value="success" id="notice"><%= notice %></div>
@@ -31,7 +65,7 @@
           <div data-controller="flash" data-flash-type-value="error" id="alert"><%= alert %></div>
       <% end %>
     </div>
-    <main class="container mx-auto mt-28 px-5">
+    <main class="container mx-auto p-6">
       <%= yield %>
     </main>
   </body>
