@@ -1,14 +1,27 @@
 <div class="bg-surface-secondary border-2 border-border-dark shadow-sm mb-6">
   <div class="p-6">
-    <!-- Title -->
-    <h2 class="text-2xl font-semibold text-text mb-2"><%= doubt.title %></h2>
-
+    <!-- Title with Resolved Badge or Accept Button -->
+    <div class="flex justify-between items-start mb-2">
+      <h2 class="text-2xl font-semibold text-text">
+        <%= link_to_unless local_assigns[:hide_link], doubt.title, doubt_path(doubt), class: "hover:underline cursor-pointer" %>
+      </h2>
+      
+      <% if doubt.resolved_assignment.present? %>
+        <span class="bg-green-100 text-green-800 text-xs font-medium px-2.5 py-0.5 rounded-full">
+          Resolved
+        </span>
+      <% elsif local_assigns[:allow_accept] and doubt.available_for_ta?(current_user) %>
+        <%= button_to "Accept", doubt_assignments_path, method: :post, params: { doubt_assignment: {doubt_id: doubt.id} },
+              class: "px-4 py-2 bg-white text-accent rounded hover:bg-accent border border-accent hover:text-white text-sm font-medium" %>
+      <% end %>
+    </div>
+    
     <!-- Added by user -->
     <p class="text-sm text-text-secondary mb-4">
       Asked by <span class="font-medium"><%= doubt.user.name %></span> 
       on <%= doubt.created_at.strftime("%B %d, %Y at %I:%M %p") %>
     </p>
-
+    
     <!-- Description -->
     <div class="prose prose-sm text-text">    
       <div class="trix-content">
@@ -16,25 +29,51 @@
       </div>
     </div>  
   </div>
+
+  <!-- Answer Section (if resolved) -->
+  <% if doubt.resolved_assignment.present? %>
+    <hr class="border border-border">
+    <div class="p-6 bg-green-50">
+      <h3 class="text-lg font-semibold text-green-800 mb-3 flex items-center">
+        <svg class="w-5 h-5 mr-2" fill="currentColor" viewBox="0 0 20 20">
+          <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"></path>
+        </svg>
+        Answer
+      </h3>
+      
+      <div class="prose prose-sm text-text mb-4">
+        <div class="trix-content">
+          <%= render_action_text_content(doubt.resolved_assignment.answer.body) %>
+        </div>
+      </div>
+      
+      <p class="text-sm text-green-700">
+        Answered by <span class="font-medium"><%= doubt.resolved_assignment.ta.name %></span>
+        on <%= doubt.resolved_assignment.created_at.strftime("%B %d, %Y at %I:%M %p") %>
+      </p>
+    </div>
+  <% end %>
+  
+  <!-- Comments Section -->
   <hr class="border border-border">  
   <div class="p-6">
+    <h3 class="text-lg font-semibold text-text mb-4">Comments</h3>
+    
     <div id="<%= dom_id(doubt, :comment_list) %>">
-      <%= render local_assigns[:all_comments?] ? doubt.comments : doubt.comments.last(2) %>
+      <%= render local_assigns[:all_comments] ? doubt.comments : doubt.comments.last(2) %>
     </div>
+    
     <%= form_with(model: [doubt, Comment.new], class: "w-full") do |f| %>
       <div class="flex flex-col sm:flex-row items-start sm:items-center gap-2 w-full">
-    
         <!-- Plain text input -->
         <%= f.text_field :body,
               placeholder: "Write a comment...",
               class: "flex-1 p-2 border-1 border-border rounded focus:ring focus:ring-border bg-white focus:outline-none" %>
-    
+        
         <!-- Submit button -->
         <%= f.submit "Comment",
               class: "bg-white hover:bg-accent text-accent hover:text-white px-4 py-2 rounded flex-shrink-0 border border-accent" %>
-    
       </div>
     <% end %>
-    
   </div> 
 </div>

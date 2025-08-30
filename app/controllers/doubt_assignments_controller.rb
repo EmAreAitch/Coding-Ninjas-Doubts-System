@@ -4,11 +4,12 @@ class DoubtAssignmentsController < ApplicationController
   
   def index    
     @doubts = Doubt
-      .joins(ActiveRecord::Base.sanitize_sql([
+      .joins(Doubt.sanitize_sql([
         "LEFT JOIN doubt_assignments da ON doubts.id = da.doubt_id AND da.ta_id = ?", 
         current_user.id
       ]))
-      .where(accepted: false, da: {id: nil})      
+      .where(accepted: false, da: {id: nil})  
+      .order('doubts.created_at ASC')
   end
 
   def show
@@ -52,7 +53,7 @@ class DoubtAssignmentsController < ApplicationController
   end
 
   def assignment_params
-    params.expect(doubt_assignment: [:doubt_id, :answer, :status]).merge(ta: current_user)
+    params.expect(doubt_assignment: [:doubt_id]).merge(ta: current_user)
   end
 
   def update_params

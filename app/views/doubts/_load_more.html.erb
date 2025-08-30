@@ -1,0 +1,9 @@
+<% if pagy&.next %>
+    <%= turbo_frame_tag 'load_more',
+        loading: :lazy,
+        src: { page: pagy.next, format: :turbo_stream } do %>
+      <p class="text-text-secondary text-center">Loading more doubts...</p>
+    <% end %>
+<% else %>
+  <p class="text-text-secondary text-center">No more doubts raised yet.</p>
+<% end %>

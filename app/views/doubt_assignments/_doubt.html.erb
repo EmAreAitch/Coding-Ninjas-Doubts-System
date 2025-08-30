@@ -1,6 +1,6 @@
 <div class="flex items-center justify-between p-4 shadow-sm bg-surface-secondary mb-4 border-2 border-border-dark">
   <!-- Title -->
-  <span class="font-medium text-lg"><%= doubt.title %></span>
+  <span class="font-medium text-lg"><%= link_to doubt.title, doubt_path(doubt), class: "hover:underline cursor-pointer" %></span>
 
   <!-- Accept button -->
   <%= button_to "Accept", doubt_assignments_path, method: :post, params: { doubt_assignment: {doubt_id: doubt.id} },

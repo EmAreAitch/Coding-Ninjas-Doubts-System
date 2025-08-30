@@ -1,0 +1,59 @@
+<div class="max-w-4xl mx-auto">
+  <!-- Page heading -->
+  <h1 class="text-3xl font-semibold text-text mb-6">Dashboard</h1>
+  
+  <!-- Stats Cards Grid -->
+  <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+    <!-- Total Doubts -->
+    <div class="bg-surface-secondary border-2 border-border-dark shadow-sm p-6 text-center">
+      <div class="text-4xl font-bold text-text mb-2"><%= @dashboard_stats.doubts_asked %></div>
+      <div class="text-text-secondary">Doubts Asked</div>
+    </div>
+    
+    <!-- Resolved Doubts -->
+    <div class="bg-surface-secondary border-2 border-border-dark shadow-sm p-6 text-center">
+      <div class="text-4xl font-bold text-text mb-2"><%= @dashboard_stats.doubts_resolved %></div>
+      <div class="text-text-secondary">Doubts Resolved</div>
+    </div>
+    
+    <!-- Escalated Doubts -->
+    <div class="bg-surface-secondary border-2 border-border-dark shadow-sm p-6 text-center">
+      <div class="text-4xl font-bold text-text mb-2"><%= @dashboard_stats.doubts_escalated %></div>
+      <div class="text-text-secondary">Doubts Escalated</div>
+    </div>
+    
+    <!-- Average Resolution Time -->
+    <div class="bg-surface-secondary border-2 border-border-dark shadow-sm p-6 text-center">
+      <div class="text-4xl font-bold text-text mb-2">
+        <%= @dashboard_stats.avg_resolution_seconds %>
+      </div>
+      <div class="text-text-secondary">Avg. Doubt Resolution Time</div>
+    </div>
+  </div>
+
+  <!-- TAs Report Section -->
+  <div class="bg-surface-secondary border-2 border-border-dark shadow-sm mb-6">
+    <div class="p-6">
+      <h2 class="text-xl font-semibold text-text mb-6">TAs Report</h2>
+      
+      <!-- TA Reports List -->
+      <div class="space-y-4">
+        <% if @ta_reports.any? %>
+          <% @ta_reports.each do |report| %>
+            <div class="bg-white p-4 border border-gray-200">
+              <div class="font-medium text-text mb-1"><%= report.name %></div>
+              <div class="text-sm text-text-secondary">
+                Doubts Accepted: <%= report.doubts_accepted %> | 
+                Doubts Resolved: <%= report.doubts_resolved %> | 
+                Doubt Escalated: <%= report.doubts_escalated %> | 
+                Avg Doubt Activity Time: <%= report.avg_activity_time.present? ? report.avg_activity_time : "N/A" %>
+              </div>
+            </div>
+          <% end %>
+        <% else %>
+          <p class="text-text-secondary text-center">No TAs found in the system.</p>
+        <% end %>
+      </div>
+    </div>
+  </div>
+</div>

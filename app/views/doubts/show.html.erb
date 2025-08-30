@@ -1,0 +1,9 @@
+<div class="max-w-4xl mx-auto">
+  <h1 class="text-3xl font-semibold text-text mb-6">Doubt Details</h1>
+  
+  <div class="mb-4">
+    <%= link_to "← Back", :back, class: "text-text-secondary hover:text-text transition-colors" %>
+  </div>
+    
+  <%= render @doubt, all_comments: true, hide_link: true, allow_accept: true %>  
+</div>

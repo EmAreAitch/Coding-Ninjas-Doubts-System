@@ -2,8 +2,12 @@
   <!-- Page heading -->
   <h1 class="text-3xl font-semibold text-text mb-6">Home</h1>  
   <p class="text-right text-text"><%= @doubts.length %> Doubts</p>
-  <%= render @doubts %>
+  <div id="doubts">
+    <%= render @doubts %>
+  </div>  
   <% if @doubts.empty? %>
     <p class="text-text-secondary text-center">No doubts raised yet.</p>
-  <% end %>
+  <% else %>
+    <%= render "load_more", pagy: @pagy %>
+  <% end %>  
 </div>

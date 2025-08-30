@@ -1,0 +1,5 @@
+<%= turbo_stream.append 'doubts' do %>
+   <%= render @doubts %>
+<% end %>
+
+<%= turbo_stream.replace "load_more", partial: "load_more", locals: {pagy: @pagy} %>

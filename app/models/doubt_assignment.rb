@@ -11,12 +11,15 @@ class DoubtAssignment < ApplicationRecord
   validate :answer_only_allowed_when_accepted
   before_save :auto_resolve_if_answer_present
   after_create_commit :mark_doubt_as_accepted
-  after_update_commit :update_doubt_acceptance_if_escalated
+  after_update_commit :update_doubt_status_and_acceptance
     
   private
 
   def auto_resolve_if_answer_present
-    self.status = "resolved" if answer.present?
+    if answer.present?
+      self.status = "resolved" 
+      self.resolution_time = Time.current - created_at      
+    end
   end
 
   def status_can_only_change_from_accepted
@@ -47,12 +50,18 @@ class DoubtAssignment < ApplicationRecord
   end
 
   def mark_doubt_as_accepted
-    doubt.update(accepted: true) if accepted? || resolved?
+    if accepted?
+      doubt.update(accepted: true)
+    elsif resolved?
+      doubt.update(accepted: true, status: :resolved, resolution_time: Time.current - doubt.created_at)
+    end
   end
 
-  def update_doubt_acceptance_if_escalated
+  def update_doubt_status_and_acceptance
     if saved_change_to_status? && escalated?
-      doubt.update(accepted: false)
+      doubt.update(accepted: false, status: :escalated)
+    elsif saved_change_to_status? && resolved?
+      doubt.update(accepted: true, status: :resolved, resolution_time: Time.current - doubt.created_at)
     end
   end
 end
