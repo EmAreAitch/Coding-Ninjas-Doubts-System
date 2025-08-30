@@ -4,6 +4,7 @@ class DoubtsController < ApplicationController
   before_action :authorize_student, only: [:create]
 
   def index
+    @doubts_asked = DoubtStat.instance.doubts_asked
     @pagy, @doubts = pagy_keyset(
       Doubt.with_rich_text_description_and_embeds
            .includes(

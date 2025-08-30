@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_29_173112) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_30_104337) do
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -72,6 +72,17 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_29_173112) do
     t.index ["ta_id"], name: "index_doubt_assignments_on_ta_id"
   end
 
+  create_table "doubt_stats", force: :cascade do |t|
+    t.bigint "doubts_asked", default: 0
+    t.bigint "doubts_resolved", default: 0
+    t.bigint "doubts_escalated", default: 0
+    t.bigint "sum_resolution_seconds"
+    t.integer "singleton_guard", default: 0, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["singleton_guard"], name: "index_doubt_stats_on_singleton_guard", unique: true
+  end
+
   create_table "doubts", force: :cascade do |t|
     t.string "title"
     t.datetime "created_at", null: false
@@ -82,6 +93,19 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_29_173112) do
     t.integer "resolution_time"
     t.index ["created_at", "id"], name: "index_doubts_on_created_at_and_id_desc", order: :desc
     t.index ["user_id"], name: "index_doubts_on_user_id"
+  end
+
+  create_table "ta_stats", force: :cascade do |t|
+    t.integer "ta_id"
+    t.bigint "doubts_accepted", default: 0
+    t.bigint "doubts_resolved", default: 0
+    t.bigint "doubts_escalated", default: 0
+    t.bigint "sum_activity_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "name", null: false
+    t.index ["id", "ta_id"], name: "index_ta_stats_on_id_and_ta_id", unique: true
+    t.index ["ta_id"], name: "index_ta_stats_on_ta_id"
   end
 
   create_table "users", force: :cascade do |t|
@@ -104,4 +128,5 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_29_173112) do
   add_foreign_key "doubt_assignments", "doubts"
   add_foreign_key "doubt_assignments", "users", column: "ta_id"
   add_foreign_key "doubts", "users"
+  add_foreign_key "ta_stats", "users", column: "ta_id"
 end

@@ -2,12 +2,8 @@ class DashboardController < ApplicationController
   before_action :ensure_teacher!
 
   def show
-    @dashboard_stats = calculate_dashboard_stats
-    @dashboard_stats["avg_resolution_seconds"] = transform_average_seconds(@dashboard_stats["avg_resolution_seconds"])
-    @ta_reports = calculate_ta_reports
-    @ta_reports.each { 
-      it["avg_activity_time"] = transform_average_seconds(it["avg_activity_time"]) if it["avg_activity_time"].present? 
-    }
+    @dashboard_stats = DoubtStat.select_stats.instance    
+    @ta_reports = TaStat.select_stats.all
   end
 
   private
@@ -15,6 +11,8 @@ class DashboardController < ApplicationController
   def ensure_teacher!
     redirect_to root_path, alert: "Please sign in as Teaching Assistant" unless current_user.is_a? TeachingAssistant
   end
+
+  # OLD APPROACH BELOW
 
   def calculate_dashboard_stats    
     status_resolved  = Doubt.statuses[:resolved]
@@ -48,11 +46,5 @@ class DashboardController < ApplicationController
         { resolved: status_resolved, escalated: status_escalated }
       ])
     ).group(:id, :name)
-  end
-
-  def transform_average_seconds(seconds)    
-    highest_order = ActiveSupport::Duration.build(seconds).parts.first
-    highest_order[1] = (seconds.fdiv ActiveSupport::Duration::PARTS_IN_SECONDS[highest_order[0]]).round
-    highest_order.reverse.join(" ").singularize.pluralize(highest_order[1])
   end
 end

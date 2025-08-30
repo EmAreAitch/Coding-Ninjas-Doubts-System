@@ -25,7 +25,7 @@
     <!-- Average Resolution Time -->
     <div class="bg-surface-secondary border-2 border-border-dark shadow-sm p-6 text-center">
       <div class="text-4xl font-bold text-text mb-2">
-        <%= @dashboard_stats.avg_resolution_seconds %>
+        <%= @dashboard_stats.avg_resolution_seconds.present? ? format_duration(@dashboard_stats.avg_resolution_seconds) : "N/A" %>
       </div>
       <div class="text-text-secondary">Avg. Doubt Resolution Time</div>
     </div>
@@ -38,7 +38,7 @@
       
       <!-- TA Reports List -->
       <div class="space-y-4">
-        <% if @ta_reports.any? %>
+        <% if @ta_reports.present? %>
           <% @ta_reports.each do |report| %>
             <div class="bg-white p-4 border border-gray-200">
               <div class="font-medium text-text mb-1"><%= report.name %></div>
@@ -46,7 +46,7 @@
                 Doubts Accepted: <%= report.doubts_accepted %> | 
                 Doubts Resolved: <%= report.doubts_resolved %> | 
                 Doubt Escalated: <%= report.doubts_escalated %> | 
-                Avg Doubt Activity Time: <%= report.avg_activity_time.present? ? report.avg_activity_time : "N/A" %>
+                Avg Doubt Activity Time: <%= report.avg_activity_time.present? ? format_duration(report.avg_activity_time) : "N/A" %>
               </div>
             </div>
           <% end %>

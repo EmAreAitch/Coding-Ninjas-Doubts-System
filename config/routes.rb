@@ -1,6 +1,11 @@
 Rails.application.routes.draw do
   get "dashboard" => "dashboard#show"
 
+  devise_scope :user do
+    get "student_login", to: "users/sessions#student_login"
+    get "assistant_login", to: "users/sessions#assistant_login"    
+  end
+
   resources :doubt_assignments, except: [:destroy, :edit, :new]
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 

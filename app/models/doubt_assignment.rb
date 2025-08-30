@@ -10,8 +10,8 @@ class DoubtAssignment < ApplicationRecord
   validate :status_can_only_change_from_accepted, on: :update
   validate :answer_only_allowed_when_accepted
   before_save :auto_resolve_if_answer_present
-  after_create_commit :mark_doubt_as_accepted
-  after_update_commit :update_doubt_status_and_acceptance
+  after_create :mark_doubt_as_accepted
+  after_update :update_doubt_status_and_acceptance
     
   private
 
@@ -51,17 +51,21 @@ class DoubtAssignment < ApplicationRecord
 
   def mark_doubt_as_accepted
     if accepted?
-      doubt.update(accepted: true)
+      doubt.update!(accepted: true)
+      TaStat.where(ta: ta).update_counters(doubts_accepted: 1)
     elsif resolved?
-      doubt.update(accepted: true, status: :resolved, resolution_time: Time.current - doubt.created_at)
+      doubt.update!(accepted: true, status: :resolved, resolution_time: Time.current - doubt.created_at)
+      TaStat.where(ta: ta).update_counters(doubts_accepted: 1, doubts_resolved: 1, sum_activity_time: resolution_time)
     end
   end
 
   def update_doubt_status_and_acceptance
     if saved_change_to_status? && escalated?
-      doubt.update(accepted: false, status: :escalated)
+      doubt.update!(accepted: false, status: :escalated)
+      TaStat.where(ta: ta).update_counters(doubts_escalated: 1)
     elsif saved_change_to_status? && resolved?
-      doubt.update(accepted: true, status: :resolved, resolution_time: Time.current - doubt.created_at)
+      doubt.update!(accepted: true, status: :resolved, resolution_time: Time.current - doubt.created_at)
+      TaStat.where(ta: ta).update_counters(doubts_resolved: 1, sum_activity_time: resolution_time)
     end
   end
 end

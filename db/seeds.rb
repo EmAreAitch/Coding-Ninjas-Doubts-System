@@ -1,8 +1,4 @@
-# Clear existing data
-Comment.destroy_all
-DoubtAssignment.destroy_all
-Doubt.destroy_all
-User.destroy_all
+DoubtStat.instance
 
 puts "Creating students..."
 # Static students for testing

@@ -7,21 +7,16 @@
     <meta name="mobile-web-app-capable" content="yes">
     <%= csrf_meta_tags %>
     <%= csp_meta_tag %>
-
     <%= yield :head %>
-
     <%# Enable PWA manifest for installable apps (make sure to enable in config/routes.rb too!) %>
     <%#= tag.link rel: "manifest", href: pwa_manifest_path(format: :json) %>
-
     <link rel="icon" href="/icon.png" type="image/png">
     <link rel="icon" href="/icon.svg" type="image/svg+xml">
     <link rel="apple-touch-icon" href="/icon.png">
-
     <%# Includes all stylesheet files in app/assets/stylesheets %>
     <%= stylesheet_link_tag :all, "data-turbo-track": "reload" %>
     <%= javascript_importmap_tags %>
   </head>
-
   <body class="bg-background text-text font-sans">
     <!-- Top Bar -->
     <header class="flex items-center justify-between bg-surface border-b border-border px-6 py-3">
@@ -31,7 +26,6 @@
         <div class="bg-orange-500 text-white font-bold px-3 py-1">
           CN
         </div>
-
         <!-- Nav links -->
         <nav class="flex items-center space-x-2 text-sm">
           <% @nav_links = [
@@ -40,7 +34,6 @@
             ["Solve Doubt", doubt_assignments_path],
             ["Dashboard", dashboard_path]
           ] %>
-
           <% @nav_links.each_with_index do |(text, path), index| %>
             <%= link_to text, path, class: "hover:text-accent" %>
             <% unless index == @nav_links.size - 1 %>
@@ -49,12 +42,27 @@
           <% end %>
         </nav>
       </div>
-
-      <!-- Right side: Logout button -->
-      <div>
+      
+      <!-- Right side: User type + Logout button -->
+      <div class="flex items-center space-x-3">
+        <!-- User Type Indicator -->
+        <% if user_signed_in? %>
+          <div class="flex items-center space-x-2">
+            <!-- User type badge -->
+            <span class="<%= current_user.is_a?(Student) ? 'bg-blue-100 text-blue-800' : 'bg-green-100 text-green-800' %> text-xs font-medium px-2 py-1 rounded">
+              <%= current_user.is_a?(Student) ? '👨‍🎓 Student' : '👨‍🏫 Teaching Assistant' %>
+            </span>
+            <!-- Optional: Show user name/email -->
+            <span class="text-sm text-gray-600">
+              <%= current_user.email&.split('@')&.first || current_user.name || 'User' %>
+            </span>
+          </div>
+        <% end %>
+        
+        <!-- Logout button -->
         <%= button_to "Logout",
             destroy_user_session_path,
-            method: :delete,
+            method: :delete,            
             class: "bg-accent text-white px-3 py-1 font-medium shadow hover:bg-accent/90" %>
       </div>
     </header>

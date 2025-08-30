@@ -11,8 +11,9 @@ class User < ApplicationRecord
   validates :name, length: { minimum: 2, maximum: 50 }, allow_blank: true
   
   validates :type, presence: true, inclusion: { in: %w[Student Admin TeachingAssistant] }
-  has_many :doubts, dependent: :destroy
+  
   has_many :comments, dependent: :destroy
+  
   private
 
   def set_default_type
