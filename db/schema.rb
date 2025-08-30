@@ -10,7 +10,10 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_30_104337) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_30_173405) do
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "pg_catalog.plpgsql"
+
   create_table "action_text_rich_texts", force: :cascade do |t|
     t.string "name", null: false
     t.text "body"
@@ -69,6 +72,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_30_104337) do
     t.integer "resolution_time"
     t.index ["doubt_id"], name: "index_doubt_assignments_on_doubt_id"
     t.index ["ta_id", "doubt_id"], name: "index_doubt_assignments_on_ta_id_and_doubt_id", unique: true
+    t.index ["ta_id", "status"], name: "index_doubt_assignments_on_ta_id_and_status"
     t.index ["ta_id"], name: "index_doubt_assignments_on_ta_id"
   end
 
@@ -91,6 +95,7 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_30_104337) do
     t.boolean "accepted", default: false, null: false
     t.integer "status", default: 0, null: false
     t.integer "resolution_time"
+    t.index ["accepted", "status"], name: "index_doubts_on_accepted_and_status"
     t.index ["created_at", "id"], name: "index_doubts_on_created_at_and_id_desc", order: :desc
     t.index ["user_id"], name: "index_doubts_on_user_id"
   end
