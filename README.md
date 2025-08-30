@@ -81,7 +81,8 @@ Doubt.joins(Doubt.sanitize_sql([
 
 **What scales well:**
 - Composite indexes on frequently queried column combinations
-- Stats queries remain O(1) regardless of data volume
+- DoubtStats queries are O(1) (singleton pattern)
+- TaStats queries are O(k) where k = number of TAs (vs O(n*m) for live aggregations)
 - Indexed foreign keys for fast relationship lookups
 - Pagination with `pagy` gem for large datasets
 - Status-based filtering without complex joins
