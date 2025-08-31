@@ -127,34 +127,5 @@
     <main class="container mx-auto px-3 sm:px-6 py-4 sm:py-6 max-w-7xl">
       <%= yield %>
     </main>
-
-    <!-- Mobile Menu JavaScript -->
-    <script data-turbo-eval="false">      
-      document.addEventListener('turbo:load', function() {        
-        const mobileMenuBtn = document.getElementById('mobile-menu-btn');
-        const mobileMenu = document.getElementById('mobile-menu');
-                
-        if (mobileMenuBtn && mobileMenu) {
-          
-          mobileMenuBtn.addEventListener('click', function() {            
-            mobileMenu.classList.toggle('hidden');
-          });
-          
-          // Close mobile menu when clicking outside
-          document.addEventListener('click', function(event) {
-            if (!mobileMenuBtn.contains(event.target) && !mobileMenu.contains(event.target)) {
-              mobileMenu.classList.add('hidden');
-            }
-          });
-          
-          // Close mobile menu when window resizes to desktop
-          window.addEventListener('resize', function() {
-            if (window.innerWidth >= 640) { // sm breakpoint
-              mobileMenu.classList.add('hidden');
-            }
-          });
-        }
-      });
-    </script>
   </body>
 </html>
