@@ -13,7 +13,13 @@ class DoubtsController < ApplicationController
              resolved_assignment: [{ rich_text_answer: :embeds_blobs }, :ta]
            )
            .order(created_at: :desc, id: :desc)
-    )    
+    )
+
+    respond_to do |f|
+      f.html
+      f.turbo_stream if params[:page].present?
+    end    
+    
   end
 
   def show

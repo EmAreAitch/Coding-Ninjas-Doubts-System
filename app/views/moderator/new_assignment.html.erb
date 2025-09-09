@@ -1,0 +1,22 @@
+<h2>Assign Doubt to TA</h2>
+
+<%= form_with url: "/", method: :post do |form| %>
+  <!-- Doubt Selection -->
+  <div>
+    <%= form.label :doubt_id, "Select Doubt" %><br>
+    <%= form.collection_select :doubt_id, @doubts, :id, :title, prompt: "Choose a doubt" %>
+  </div>
+  <br>
+
+  <!-- TA Selection -->
+  <div>
+    <%= form.label :ta_id, "Select TA" %><br>
+    <%= form.collection_select :ta_id, @tas, :id, :name, prompt: "Choose a TA" %>
+  </div>
+  <br>
+
+  <!-- Submit Button -->
+  <div>
+    <%= form.submit "Assign" %>
+  </div>
+<% end %>

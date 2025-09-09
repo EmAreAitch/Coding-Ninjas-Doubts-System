@@ -10,7 +10,7 @@ class User < ApplicationRecord
   validates :name, presence: true
   validates :name, length: { minimum: 2, maximum: 50 }, allow_blank: true
   
-  validates :type, presence: true, inclusion: { in: %w[Student Admin TeachingAssistant] }
+  validates :type, presence: true, inclusion: { in: %w[Student Admin TeachingAssistant Moderator] }
   
   has_many :comments, dependent: :destroy
   

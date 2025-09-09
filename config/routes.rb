@@ -6,6 +6,8 @@ Rails.application.routes.draw do
     get "assistant_login", to: "users/sessions#assistant_login"    
   end
 
+  get "new_assignment", to: "moderator#new_assignment"
+
   resources :doubt_assignments, except: [:destroy, :edit, :new]
   # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
 
