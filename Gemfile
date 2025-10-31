@@ -71,6 +71,6 @@ gem "faker", "~> 3.5"
 
 gem "pagy", "~> 9.4"
 
-gem "cloudinary", "~> 2.3"
+gem "cloudinary", "~> 2.4"
 
 gem "dotenv", "~> 3.1"
